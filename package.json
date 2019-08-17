@@ -1,8 +1,8 @@
 {
   "name": "bookmarks-server",
   "version": "1.0.0",
-  "description": "This is a boilerplate project used for starting new projects!",
-  "main": "index.js",
+  "description": "This is a Bookmarks server",
+  "main": "src/server.js",
   "scripts": {
     "test": "mocha --require test/setup.js",
     "dev": "nodemon src/server.js",
@@ -20,6 +20,7 @@
     "helmet": "^3.20.0",
     "morgan": "^1.9.1",
     "uuid": "^3.3.2",
+    "valid-url": "^1.0.9",
     "winston": "^3.2.1"
   },
   "devDependencies": {
