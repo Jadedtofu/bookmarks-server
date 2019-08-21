@@ -11,7 +11,7 @@ const bodyParser = express.json();
 bookmarksRouter
     .route('/bookmarks')
     .get((req, res) => {
-        res.json(bookmarks);
+        res.json(bookmarks)
     })
     .post(bodyParser, (req, res) => {
         for (const input of ['title', 'url', 'rating']) {
@@ -20,7 +20,7 @@ bookmarksRouter
                 return res.status(400).send(`'${input}' is required`);
             }
         }
-        const { title, url, description, rating} = req.body;
+        const { title, url, description, rating } = req.body;
 
         if (!Number.isInteger(rating) || rating < 0 || rating > 5) {
             logger.error(`Invalid rating, '${rating}' supplied`);
@@ -41,7 +41,7 @@ bookmarksRouter
             res
             .status(201)
             .location(`http://localhost:8000/bookmarks/${bookmark.id}`)
-            .json(bookmark);
+            .json(bookmark)
     });
 
 
@@ -59,7 +59,7 @@ bookmarksRouter
                 .send('Bookmark Not Found');
         }
 
-        res.json(bookmark);
+        res.json(bookmark)
     })
     .delete((req, res) => {
         const { bookmark_id } = req.params;
@@ -78,7 +78,7 @@ bookmarksRouter
         logger.info(`Bookmark with id ${bookmark_id} deleted.`);
             res
             .status(204)
-            .end();
+            .end()
     });
 
 module.exports = bookmarksRouter;

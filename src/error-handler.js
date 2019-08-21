@@ -1,5 +1,5 @@
 const { NODE_ENV } = require('./config');
-const logger = require('./logger');
+// const logger = require('./logger');
 
 function errorHandler(error, req, res, next) {
     let response;
