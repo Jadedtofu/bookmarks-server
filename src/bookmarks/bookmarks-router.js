@@ -11,7 +11,7 @@ const bodyParser = express.json();
 bookmarksRouter
     .route('/bookmarks')
     .get((req, res) => {
-        res.json(bookmarks)
+        res.json(store.bookmarks)
     })
     .post(bodyParser, (req, res) => {
         for (const input of ['title', 'url', 'rating']) {
@@ -46,7 +46,7 @@ bookmarksRouter
 
 
 bookmarksRouter
-    .route('/bookmarks/:id')
+    .route('/bookmarks/:bookmark_id')
     .get((req, res) => {
         const { bookmark_id} = req.params;
 
