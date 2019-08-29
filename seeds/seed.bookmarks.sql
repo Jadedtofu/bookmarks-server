@@ -1,0 +1,12 @@
+INSERT INTO bookmarks (title, url, description, rating)
+VALUES
+('1. Gilgamesh Figurine', 'https://www.goodsmile.info/en/product/8395/Archer+Gilgamesh.html', 'A 1/8th scale ABS/PVC figure with stand included in a custom pose', 5),
+('2. Romani Figurine', 'https://www.goodsmile.info/en/product/8383/Romani+Archaman.html', 'A 1/8th scale ABS&PVC figure with stand included with coffee mug swap-out hand', 4),
+('3. Fate/Extella Link Gilgamesh Non-Scale Figure', 'https://otakumode.com/shop/5cbe48962914bf247acc57b9/Fate-Extella-Link-Gilgamesh-Non-Scale-Figure', 'A non-scale ATBC-PVC painted figure with stand. Gilgamesh plays with baby tigers', 4),
+('4. FGO Rider Ozymandias Scale Figure', 'https://otakumode.com/shop/5ca6b8e572c23937713c268b/Fate-Grand-Order-Rider-Ozymandias-1-8-Scale-Figure', 'A 1/8th scale PVC & ABS figure with stand. Ozymandias sits on his throne looking to the side', 5),
+('5. FGO Caster Merlin Figure', 'https://otakumode.com/shop/5ce5f27d0e23699c6d4801e2/Fate-Grand-Order-Caster-Merlin-1-8-Scale-Figure', 'Painted non-articulated 1/8th scale PVC & ABS figure with base with nicely rendered hair for the Mage of Flowers', 5),
+('6. Fate Apocrypha Ruler Jeanne Figure', 'https://otakumode.com/shop/5a585de8ebbfb7d06134c532/Fate-Apocrypha-Ruler-La-Pucelle-1-7-Scale-Figure', 'A 1/7th scale ABS & PVC figure with stand showing Jeanne in an active Noble Phantasm pose', 5),
+('7. FGO Caster Nero Claudius Figure', 'https://otakumode.com/shop/5bf61ed1b59f18ff1e5bb289/4-Inch-Nel-Fate-Grand-Order-Caster-Nero-Claudius', 'A 4 Inch Painted ABS ATBC-PVC, non-scale figure set with face plates, 6 hand parts, Aestus Estus, 2 pipe organs, and special stand', 5),
+('8. Fate Apocrypha Saber Mordred Figure', 'https://otakumode.com/shop/54f5283b085e4a39054a48f8/Fate-Apocrypha-Saber-of-Red-Mordred-1-7-Scale-Figure-Re-Run', 'A 1/7th scale figure with base, painted non-articulated. Mordred sporting a casual look', 4),
+('9. FGO Lancer Ereshkigal Scale Figure', 'https://otakumode.com/shop/5c7356fc70b46ede5a1eaff5/Fate-Grand-Order-Lancer-Ereshkigal-1-7-Scale-Figure', 'A 1/7th Scale ABS & PVC figure with stand, painted of our Goddess of the Underworld', 5),
+('10. Fate Extra Caster Tamamo Figure', 'https://otakumode.com/shop/574cff91bd6837973f624090/figma-Fate-Extra-Caster-Re-run', 'A 5.3 inch non-scale ABS & PVC Figure with accessory parts and stand', 4);

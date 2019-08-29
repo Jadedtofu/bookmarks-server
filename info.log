@@ -23,3 +23,4 @@
 {"message":"Unauthorized request to path: /bookmarks/10a01480-b3b7-459b-ab77-3acc6849543c","level":"error"}
 {"message":"Bookmark with id 10a01480-b3b7-459b-ab77-3acc6849543c deleted.","level":"info"}
 {"message":"Unauthorized request to path: /bookmarks","level":"error"}
+{"message":"Unauthorized request to path: /bookmarks","level":"error"}

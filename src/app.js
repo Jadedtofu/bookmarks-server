@@ -7,6 +7,7 @@ const { NODE_ENV } = require('./config');
 const validateBearerToken = require('./validate-bearer-token');
 const errorHandler = require('./error-handler');
 const bookmarksRouter = require('./bookmarks/bookmarks-router');
+const BookmarksService = require('./bookmarks-service');
 
 const app = express();
 
@@ -16,9 +17,37 @@ app.use(morgan(morganOption, {
 
 app.use(cors());
 app.use(helmet());
-app.use(validateBearerToken);
+// app.use(validateBearerToken);
 
-app.use(bookmarksRouter);
+// app.use(bookmarksRouter);
+
+app.get('/bookmarks', (req, res, next) => {
+  // res.send('All Bookmarks');
+  const knexInstance = req.app.get('db'); // to read the properties on the app object: req.app.get('property-name')
+  BookmarksService.getAllBookmarks(knexInstance)
+    .then(bookmarks => {
+      res.json(bookmarks)
+    })
+    .catch(next);
+});
+
+app.get('/bookmarks/:bookmark_id', (req, res, next) => {
+//   res.json({ 'requested_id': req.params.bookmark_id, 
+//               this: 'should fail'});
+  const knexInstance = req.app.get('db');
+  BookmarksService.getById(knexInstance, req.params.bookmark_id)
+    .then(bookmark => {
+      if (!bookmark) {
+        return res.status(404).json({
+          error: { message:
+            `Bookmark doesn't exist.`
+                  }
+        });
+      }
+      res.json(bookmark);
+    })
+    .catch(next);
+});
 
 app.get('/', (req, res) => {
     res.send('Hello, world!');
