@@ -15,7 +15,7 @@ const serializedBookmark = bookmark => ({
     title: xss(bookmark.title),
     url: xss(bookmark.url),  // not done on url
     description: xss(bookmark.description),
-    rating: Number(Bookmark.rating), // not done on number
+    rating: Number(bookmark.rating), // not done on number
 });
 
 bookmarksRouter
@@ -31,19 +31,27 @@ bookmarksRouter
         for (const input of ['title', 'url', 'rating']) {
             if(!req.body[input]) {
                 logger.error(`${input} is required`);
-                return res.status(400).send(`'${input}' is required`);
+                return res.status(400).send({
+                    error: { message: `'${input}' is required`}
+                });
             }
         }
 
         const { title, url, description, rating } = req.body;
 
-        if (!Number.isInteger(rating) || rating < 0 || rating > 5) {
+        const ratingNum = Number(rating);
+
+        if (!Number.isInteger(ratingNum) || rating < 0 || rating > 5) {
             logger.error(`Invalid rating, '${rating}' supplied`);
-            return res.status(400).send(`'rating' must be a number between 0 and 5`);
+            return res.status(400).send({
+                error: { message: `'rating' must be a number between 0 and 5`}
+            });
         }
         if (!isWebUri(url)) {  // validating URL
             logger.error(`Invalid URL '${url}' supplied`);
-            return res.status(400).send(`'url' must be a valid URL`);
+            return res.status(400).send({
+                error: { message: `'url' must be a valid URL`}
+            });
         }  // note the return is always for errors 
         
         // store.bookmarks.push(newBookmark);
@@ -78,7 +86,7 @@ bookmarksRouter         // v this is a param (bookmark_id)
                 logger.error(`Bookmark with id ${req.params.bookmark_id} not found.`); 
                 // logging before return
                 return res.status(404).json({
-                    error: { message: `Bookmark doesnt' exist` }
+                    error: { message: `Bookmark doesn't exist` }
                 });
             }
             res.bookmark = bookmark; // save bookmark for next middleware

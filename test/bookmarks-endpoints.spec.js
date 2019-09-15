@@ -25,7 +25,7 @@ describe('Bookmarks Endpoints', () => {
     afterEach('cleanup', () => db('bookmarks').truncate());
 
     // need to do test for unauthorized requests:
-    describe(`Unauthorized requests`, () => {
+    describe(`Unauthorized Requests`, () => {
         const testBookmarks = makeBookmarksArray();
 
         beforeEach(`insert bookmarks`, () => {
@@ -113,7 +113,7 @@ describe('Bookmarks Endpoints', () => {
                     .get(`/bookmarks/${bookmarkId}`)
                     .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                     .expect(404, { error: {
-                                    message: `Bookmark doesn't exist.`
+                                    message: `Bookmark doesn't exist`
                                     }
                     });
             });
@@ -149,7 +149,7 @@ describe('Bookmarks Endpoints', () => {
 
             it('removes XSS attack content', () => {
                 return supertest(app)
-                    .app(`/bookmarks/${badBookmark.id}`)
+                    .get(`/bookmarks/${badBookmark.id}`)
                     .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                     .expect(200)
                     .expect(res => {
@@ -167,7 +167,7 @@ describe('Bookmarks Endpoints', () => {
                     .delete(`/bookmarks/123`)
                     .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                     .expect(404, {
-                      error: { message: `Bookmark Not Found` }
+                      error: { message: `Bookmark doesn't exist` }
                     });
             });
         });
@@ -178,18 +178,18 @@ describe('Bookmarks Endpoints', () => {
             beforeEach('insert bookmarks', () => {
                 return db 
                     .into('bookmarks')
-                    .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                     .insert(testBookmarks);
             });
 
             it('responds with 204 and removes the bookmark', () => {
-                const idToRemove = 2;
+                const idToRemove = 1;
                 const expectedBookmark = testBookmarks.filter(bookmark => bookmark.id !== idToRemove);
+
                 return supertest(app)
-                    .delete(`/bookmark/${idToRemove}`)
+                    .delete(`/bookmarks/${idToRemove}`)
                     .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                     .expect(204)
-                    .then(res =>
+                    .then(() =>  // no response, using .then to complete steps in function
                         supertest(app)
                             .get(`/bookmarks`)
                             .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
@@ -200,55 +200,129 @@ describe('Bookmarks Endpoints', () => {
     });
     
     describe(`POST /bookmarks`, () => {
-        const requiredFields = ['title', 'url', 'rating'];
+        // const requiredFields = ['title', 'url', 'rating'];
+        // requiredFields.forEach(field => {
+        //     const newBookmark = {
+        //         title: 'Test new bookmark',
+        //         url: 'https://maps.google.com',
+        //         rating: 4
+        //     }
 
-        requiredFields.forEach(field => {
-            const newBookmark = {
-                title: 'Test new bookmark',
-                url: 'https://maps.google.com',
-                rating: 4
+        //     it(`responds with 400 and error message when '${field}' is missing`, () => 
+        //     {
+        //         delete newBookmark[field];  // this deletes all the fields and makes an empty object...
+        //         return supertest(app)
+        //             .post('/bookmarks')
+        //             .send(newBookmark)
+        //             .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+        //             .expect(400, {
+        //                 error: { message: `Missing '${field}' in request body`}
+        //             });
+        //     });
+        // });
+
+        // it(`responds with 400 invalid 'rating' if not between 0 and 5`, () => {
+        //     const newBookmarkBadRating = {
+        //         title: 'test-title',
+        //         url: 'https://test.com',
+        //         rating: 'invalid',
+        //     }
+        //     return supertest(app)
+        //         .post(`/bookmarks`)
+        //         .send(newBookmarkBadRating)
+        //         .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+        //         .expect(400, {
+        //             error: { message: `'rating' must be between 0 and 5`}
+        //         });
+        // });
+
+        // it(`responds with 400 invalid 'url' if it's not valid`, () => {
+        //     const newBookmarkBadURL = {
+        //         title: 'test-title',
+        //         url: 'htp://bad-url',
+        //         rating: 1
+        //     }
+        //     return supertest(app)
+        //         .post(`/bookmarks`)
+        //         .send(newBookmarkBadURL)
+        //         .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+        //         .expect(400, {
+        //             error: { message: `'url' must be valid`}
+        //         });
+        // });
+
+        it(`responds with 400 if missing 'title'`, () => {
+            const newBookmarkNoTitle = {
+                // title: 'test-title',
+                url: 'https://test.com',
+                rating: 1
             }
-
-            it(`responds with 400 and error message when '${field}' is missing`, () => 
-            {
-                delete newBookmark[field];  // does this delete the invalid field value???
-                return supertest(app)
-                    .post('/bookmarks')
-                    .send(newBookmark)
-                    .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
-                    .expect(400, {
-                        error: { message: `Missing '${field}' in request body`}
-                    });
+            return supertest(app)
+                .post('/bookmarks')
+                .send(newBookmarkNoTitle)
+                .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+                .expect(400, {
+                    error: { message: `'title' is required` }
+            });
+        });
+        
+        it(`responds with 400 if missing 'url'`, () => {
+            const newBookmarkNoUrl = {
+                title: 'test-title',
+                // url: 'https://test.com',
+                rating: 1
+            }
+            return supertest(app)
+                .post('/bookmarks')
+                .send(newBookmarkNoUrl)
+                .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+                .expect(400, {
+                    error: { message: `'url' is required` }
             });
         });
 
-        it(`responds with 400 invalid 'rating' if not between 0 and 5`, () => {
+        it(`responds with 400 if missing 'rating'`, () => {
+            const newBookmarkNoRating = {
+                title: 'test-title',
+                url: 'https://test.com',
+                // rating: 1
+            }
+            return supertest(app)
+                .post('/bookmarks')
+                .send(newBookmarkNoRating)
+                .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+                .expect(400, {
+                    error: { message: `'rating' is required` }
+            });
+        });
+
+        it(`responds with 400 if rating is not between 0 and 5`, () => {
             const newBookmarkBadRating = {
                 title: 'test-title',
                 url: 'https://test.com',
-                rating: 'invalid',
+                rating: 'bad'
             }
             return supertest(app)
-                .post(`/bookmarks`)
+                .post('/bookmarks')
                 .send(newBookmarkBadRating)
                 .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                 .expect(400, {
-                    error: { message: `'rating' must be between 0 and 5`}
+                    error: { message: `'rating' must be a number between 0 and 5`}
                 });
         });
 
-        it(`responds with 400 invalid 'url' if it's not valid`, () => {
-            const newBookmarkBadURL = {
+        it(`responds with 400 invalid 'url' if not valid URL`, () => {
+            const newBookmarkBadUrl = {
                 title: 'test-title',
                 url: 'htp://bad-url',
                 rating: 1
             }
             return supertest(app)
-                .post(`/bookmarks`)
-                .send(newBookmarkBadURL)
+                .post('/bookmarks')
+                .send(newBookmarkBadUrl)
                 .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
                 .expect(400, {
-                    error: { message: `'url' must be valid`}
+                    error: { message: `'url' must be a valid URL`}
                 });
         });
 

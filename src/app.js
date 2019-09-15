@@ -18,7 +18,7 @@ app.use(morgan(morganOption, {
 
 app.use(cors());
 app.use(helmet());
-app.use(validateBearerToken);
+app.use(validateBearerToken);  
 
 app.use(bookmarksRouter);
 // app.get('/bookmarks', (req, res, next) => {
