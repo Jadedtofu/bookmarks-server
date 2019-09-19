@@ -1,14 +1,15 @@
-// const { expect } = require('chai');
-// const supertest = require('supertest');
-// const app = require('../src/app');0
+const { expect } = require('chai');
+const supertest = require('supertest');
+const app = require('../src/app');0
 
-// describe('App', () => {
-//   it('GET / responds with 200 containing "Hello, world!"', () => {
-//     return supertest(app)
-//       .get('/')
-//       .expect(200, 'Hello, world!');
-//   });
-// });
+describe('App', () => {
+  it('GET / responds with 200 containing "Hello, world!"', () => {
+    return supertest(app)
+      .get('/')
+      .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+      .expect(200, 'Hello, world!');
+  });
+});
 
 // describe(`Unauthorized requests`, () => {
 //   it(`responds with 401 Unauthorized for GET /bookmarks`, () => {

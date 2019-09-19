@@ -20,7 +20,7 @@ app.use(cors());
 app.use(helmet());
 app.use(validateBearerToken);  
 
-app.use(bookmarksRouter);
+app.use('/api/bookmarks', bookmarksRouter);
 // app.get('/bookmarks', (req, res, next) => {
 //   // res.send('All Bookmarks');
 //   const knexInstance = req.app.get('db'); // to read the properties on the app object: req.app.get('property-name')
