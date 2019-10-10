@@ -151,7 +151,7 @@ bookmarksRouter         // v this is a param (bookmark_id)
     })
     .patch(bodyParser, (req, res, next) => {
         const { title, url, description, rating } = req.body;
-        const bookmarkToUpdate = { title, url, rating };
+        const bookmarkToUpdate = { title, url, description, rating };
 
         const numberOfValues = Object.values(bookmarkToUpdate).filter(Boolean).length;
         if(numberOfValues === 0) {
